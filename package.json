@@ -1,0 +1,38 @@
+{
+  "name": "mongo-guard-store",
+  "version": "0.0.0",
+  "description": "MongoDB storage for connect-guard caching middleware",
+  "main": "lib/mongo_guard_store",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "pretest": "coffee -c -o lib src",
+    "prepublish": "coffee -c -o lib src",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goodeggs/mongo-guard-store.git"
+  },
+  "keywords": [
+    "mongodb",
+    "connect-guard",
+    "store"
+  ],
+  "author": "engineering@goodeggs.com",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/goodeggs/mongo-guard-store/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "mongoose": "~3.8.6",
+    "expect.js": "~0.2.0",
+    "coffee-script": "~1.7.1",
+    "connect-guard": "0.0.6"
+  },
+  "peerDependencies": {
+    "mongoose": ">=3.6.0"
+  }
+}
