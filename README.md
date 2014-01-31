@@ -5,6 +5,7 @@ MongoDB storage for [connect-guard](https://github.com/goodeggs/connect-guard) c
 
 ```js
 var guard = require('connect-guard'),
+    mongoose = require('mongoose'),
     MongoGuardStore = require('mongo-guard-store');
 
 mongoose.connect 'mongodb://...'
