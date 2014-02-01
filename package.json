@@ -1,6 +1,6 @@
 {
   "name": "mongo-guard-store",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "MongoDB storage for connect-guard caching middleware",
   "main": "lib/mongo_guard_store",
   "directories": {
