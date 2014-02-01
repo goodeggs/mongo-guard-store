@@ -1,7 +1,10 @@
 mongoose = require 'mongoose'
+{flatten} = require 'flat'
 
 schema = new mongoose.Schema
-  path: {type: String, required: true, index: true}
+  request:
+    url: {type: String, required: true, index: true}
+    headers: {}
   cached:
     createdAt: {type: Date, required: true, index: true}
     headers: {}
@@ -10,16 +13,18 @@ GuardStoreEntry = mongoose.model 'GuardStoreEntry', schema
 
 class MongoGuardStore
 
-  set: (path, cached, callback) ->
-    GuardStoreEntry.update {path}, {path, cached}, {upsert: true}, callback
+  set: (request, cached, callback) ->
+    GuardStoreEntry.update {request}, {request, cached}, {upsert: true}, callback
 
-  get: (path, callback) ->
-    GuardStoreEntry.findOne({path}).lean().exec (err, entry) ->
+  get: (request, callback) ->
+    GuardStoreEntry.findOne({request}).lean().exec (err, entry) ->
       return callback(err) if err?
       callback(null, entry?.cached)
 
-  delete: (path, callback) ->
-    entries = GuardStoreEntry.find({path}).lean().exec (err, entries) ->
+  delete: (request, callback) ->
+    # expand paths to get lenient matching and regex support
+    query = flatten({request})
+    entries = GuardStoreEntry.find(query).lean().exec (err, entries) ->
       return callback(err) if err?
       return callback(null, undefined) if entries.length == 0
 
