@@ -30,7 +30,7 @@
     "mongoose": "~3.8.6",
     "expect.js": "~0.2.0",
     "coffee-script": "~1.7.1",
-    "connect-guard": "0.0.6",
+    "connect-guard": "~0.1.1",
     "supertest": "~0.9.0",
     "express": "~3.4.8",
     "sinon": "~1.7.3"
