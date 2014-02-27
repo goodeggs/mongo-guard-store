@@ -12,19 +12,23 @@ schema = new mongoose.Schema
 GuardStoreEntry = mongoose.model 'GuardStoreEntry', schema
 
 class MongoGuardStore
+  # expand paths to get lenient matching and regex support
+  buildQuery: (request) ->
+    flatten({request})
 
   set: (request, cached, callback) ->
-    GuardStoreEntry.update {request}, {request, cached}, {upsert: true}, callback
+    query = @buildQuery(request)
+    GuardStoreEntry.update query, {request, cached}, {upsert: true}, callback
 
   get: (request, callback) ->
-    GuardStoreEntry.findOne({request}).lean().exec (err, entry) ->
+    query = @buildQuery(request)
+    GuardStoreEntry.findOne(query).lean().exec (err, entry) ->
       return callback(err) if err?
       callback(null, entry?.cached)
 
   delete: (request, callback) ->
-    # expand paths to get lenient matching and regex support
-    query = flatten({request})
-    entries = GuardStoreEntry.find(query).lean().exec (err, entries) ->
+    query = @buildQuery(request)
+    GuardStoreEntry.find(query).lean().exec (err, entries) ->
       return callback(err) if err?
       return callback(null, undefined) if entries.length == 0
 
