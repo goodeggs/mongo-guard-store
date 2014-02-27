@@ -17,14 +17,14 @@ class MongoGuardStore
     GuardStoreEntry.update {request}, {request, cached}, {upsert: true}, callback
 
   get: (request, callback) ->
-    GuardStoreEntry.findOne({request}).lean().exec (err, entry) ->
+    GuardStoreEntry.findOne({request}).hint('request.url': 1).lean().exec (err, entry) ->
       return callback(err) if err?
       callback(null, entry?.cached)
 
   delete: (request, callback) ->
     # expand paths to get lenient matching and regex support
     query = flatten({request})
-    entries = GuardStoreEntry.find(query).lean().exec (err, entries) ->
+    entries = GuardStoreEntry.find(query).hint('request.url': 1).lean().exec (err, entries) ->
       return callback(err) if err?
       return callback(null, undefined) if entries.length == 0
 
